@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Katie Ross — Senior IT Systems Engineer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0e0f11;
+      --surface: #16181c;
+      --surface2: #1e2026;
+      --border: #2a2d35;
+      --accent: #5b8dee;
+      --accent2: #a78bfa;
+      --text: #e8eaf0;
+      --muted: #7a7f8e;
+      --tag-bg: #1e2330;
+      --tag-border: #2e3a55;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      line-height: 1.7;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Grid noise texture overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.4;
+    }
+
+    /* ── Layout ── */
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ── Nav ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 1.2rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(14, 15, 17, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.85rem;
+      color: var(--accent);
+      letter-spacing: 0.05em;
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.78rem;
+      color: var(--muted);
+      text-decoration: none;
+      letter-spacing: 0.05em;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--text); }
+
+    /* ── Hero ── */
+    .hero {
+      padding: 9rem 0 5rem;
+      position: relative;
+    }
+
+    .hero-eyebrow {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.78rem;
+      color: var(--accent);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeUp 0.6s ease forwards 0.1s;
+    }
+
+    .hero h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2.8rem, 6vw, 4.5rem);
+      line-height: 1.1;
+      font-weight: 400;
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeUp 0.6s ease forwards 0.25s;
+    }
+
+    .hero h1 em {
+      font-style: italic;
+      color: var(--accent2);
+    }
+
+    .hero-sub {
+      font-size: 1.05rem;
+      color: var(--muted);
+      max-width: 560px;
+      margin-bottom: 2.5rem;
+      opacity: 0;
+      animation: fadeUp 0.6s ease forwards 0.4s;
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeUp 0.6s ease forwards 0.55s;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.7rem 1.4rem;
+      border-radius: 6px;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.8rem;
+      letter-spacing: 0.04em;
+      text-decoration: none;
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+      border: 1px solid var(--accent);
+    }
+
+    .btn-primary:hover {
+      background: #4a7de0;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 20px rgba(91, 141, 238, 0.3);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--muted);
+      transform: translateY(-1px);
+    }
+
+    /* ── Section shared ── */
+    section {
+      padding: 5rem 0;
+      border-top: 1px solid var(--border);
+    }
+
+    .section-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--accent);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-bottom: 2.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+      max-width: 60px;
+    }
+
+    /* ── About ── */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: start;
+    }
+
+    .about-text p {
+      color: var(--muted);
+      margin-bottom: 1.2rem;
+      font-size: 0.95rem;
+    }
+
+    .about-text p strong {
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    .about-stats {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .stat-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.25rem 1.5rem;
+      transition: border-color 0.2s;
+    }
+
+    .stat-card:hover { border-color: var(--accent); }
+
+    .stat-number {
+      font-family: 'DM Serif Display', serif;
+      font-size: 2rem;
+      color: var(--accent);
+      line-height: 1;
+      margin-bottom: 0.25rem;
+    }
+
+    .stat-label {
+      font-size: 0.82rem;
+      color: var(--muted);
+      font-family: 'DM Mono', monospace;
+    }
+
+    /* ── Expertise ── */
+    .expertise-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+
+    .expertise-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.5rem;
+      transition: all 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .expertise-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    .expertise-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+    .expertise-card:hover::before { opacity: 1; }
+
+    .expertise-icon {
+      font-size: 1.4rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .expertise-card h3 {
+      font-size: 0.9rem;
+      font-weight: 500;
+      margin-bottom: 0.75rem;
+      color: var(--text);
+    }
+
+    .tag-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+
+    .tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem;
+      background: var(--tag-bg);
+      border: 1px solid var(--tag-border);
+      color: var(--muted);
+      padding: 0.2rem 0.55rem;
+      border-radius: 4px;
+      letter-spacing: 0.02em;
+    }
+
+    /* ── Experience ── */
+    .experience-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .exp-item {
+      display: grid;
+      grid-template-columns: 140px 1fr;
+      gap: 2rem;
+      padding: 2rem 0;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+    }
+
+    .exp-item:last-child { border-bottom: none; }
+
+    .exp-date {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--muted);
+      padding-top: 0.2rem;
+      line-height: 1.5;
+    }
+
+    .exp-content h3 {
+      font-size: 1rem;
+      font-weight: 500;
+      margin-bottom: 0.2rem;
+    }
+
+    .exp-company {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.78rem;
+      color: var(--accent);
+      margin-bottom: 0.75rem;
+    }
+
+    .exp-bullets {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .exp-bullets li {
+      font-size: 0.88rem;
+      color: var(--muted);
+      padding-left: 1rem;
+      position: relative;
+      line-height: 1.6;
+    }
+
+    .exp-bullets li::before {
+      content: '›';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+    }
+
+    /* ── Contact ── */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .contact-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.5rem;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      transition: all 0.2s;
+      color: var(--text);
+    }
+
+    .contact-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    .contact-icon {
+      width: 40px;
+      height: 40px;
+      background: var(--tag-bg);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+
+    .contact-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.2rem;
+    }
+
+    .contact-value {
+      font-size: 0.88rem;
+      color: var(--text);
+    }
+
+    /* ── Footer ── */
+    footer {
+      padding: 2rem 0;
+      border-top: 1px solid var(--border);
+      text-align: center;
+    }
+
+    footer p {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--muted);
+    }
+
+    /* ── Animations ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 640px) {
+      .about-grid, .expertise-grid, .contact-grid { grid-template-columns: 1fr; }
+      .exp-item { grid-template-columns: 1fr; gap: 0.5rem; }
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="#" class="nav-logo">katie.ross</a>
+    <ul class="nav-links">
+      <li><a href="#about">about</a></li>
+      <li><a href="#expertise">expertise</a></li>
+      <li><a href="#experience">experience</a></li>
+      <li><a href="#contact">contact</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <div class="container">
+
+      <!-- Hero -->
+      <section class="hero" style="border-top: none;">
+        <p class="hero-eyebrow">Available for new opportunities</p>
+        <h1>Senior IT Systems<br>Engineer. <em>SaaS &amp;<br>Identity Specialist.</em></h1>
+        <p class="hero-sub">10+ years building secure, scalable enterprise infrastructure. Deep expertise in Google Workspace, Okta, and API-driven automation — going well beyond the admin console.</p>
+        <div class="hero-cta">
+          <a href="mailto:thekatiesanders@gmail.com" class="btn btn-primary">Get in touch</a>
+          <a href="https://linkedin.com/in/katiemichellesanders" target="_blank" class="btn btn-secondary">LinkedIn →</a>
+        </div>
+      </section>
+
+      <!-- About -->
+      <section id="about">
+        <p class="section-label fade-in">About</p>
+        <div class="about-grid fade-in">
+          <div class="about-text">
+            <p>I am a Senior IT Systems Engineer based in <strong>Fayetteville, Arkansas</strong>, with over a decade of experience owning enterprise SaaS platforms, identity systems, and the automation that makes them actually scale.</p>
+            <p>My deepest work lives at the intersection of <strong>Google Workspace, Okta, and Python</strong> — building integrations where the admin console stops and engineering begins. I have configured SAML and SCIM from the application side, automated provisioning at scale with GAM, and served as the final escalation tier when the vendor docs run out.</p>
+            <p>I was an <strong>early adopter of AI tools</strong> and have seen firsthand how transformative they are for IT operations. AI changed not just how fast I work, but what I think is possible. I bring that same mindset to every system I build.</p>
+            <p>Outside of work, I co-own <strong>Arka Motel</strong> in Fayetteville (featured on HGTV's Fixer to Fabulous) and run a modern furniture woodworking shop.</p>
+          </div>
+          <div class="about-stats">
+            <div class="stat-card">
+              <div class="stat-number">10+</div>
+              <div class="stat-label">years in enterprise IT engineering</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-number">40K+</div>
+              <div class="stat-label">users migrated across 50+ apps — zero incidents</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-number">400+</div>
+              <div class="stat-label">users onboarded in platform migrations</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Expertise -->
+      <section id="expertise">
+        <p class="section-label fade-in">Core Expertise</p>
+        <div class="expertise-grid fade-in">
+          <div class="expertise-card">
+            <div class="expertise-icon">🔐</div>
+            <h3>Identity &amp; Access Management</h3>
+            <div class="tag-list">
+              <span class="tag">Okta</span>
+              <span class="tag">SAML</span>
+              <span class="tag">OAuth</span>
+              <span class="tag">SCIM</span>
+              <span class="tag">SSO</span>
+              <span class="tag">MFA</span>
+              <span class="tag">Zero-Trust</span>
+            </div>
+          </div>
+          <div class="expertise-card">
+            <div class="expertise-icon">☁️</div>
+            <h3>Enterprise SaaS Administration</h3>
+            <div class="tag-list">
+              <span class="tag">Google Workspace</span>
+              <span class="tag">GAM</span>
+              <span class="tag">Slack</span>
+              <span class="tag">Zendesk</span>
+              <span class="tag">Atlassian</span>
+              <span class="tag">Workato</span>
+            </div>
+          </div>
+          <div class="expertise-card">
+            <div class="expertise-icon">⚙️</div>
+            <h3>Automation &amp; API Engineering</h3>
+            <div class="tag-list">
+              <span class="tag">Python</span>
+              <span class="tag">REST APIs</span>
+              <span class="tag">Bash</span>
+              <span class="tag">Terraform</span>
+              <span class="tag">CI/CD</span>
+              <span class="tag">GitHub Actions</span>
+            </div>
+          </div>
+          <div class="expertise-card">
+            <div class="expertise-icon">🛡️</div>
+            <h3>Security &amp; Compliance</h3>
+            <div class="tag-list">
+              <span class="tag">SaaS Hardening</span>
+              <span class="tag">DLP</span>
+              <span class="tag">SIEM</span>
+              <span class="tag">Datadog</span>
+              <span class="tag">Sumo Logic</span>
+              <span class="tag">M&amp;A Integration</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Experience -->
+      <section id="experience">
+        <p class="section-label fade-in">Experience</p>
+        <div class="experience-list fade-in">
+
+          <div class="exp-item">
+            <div class="exp-date">Aug 2023<br>Present</div>
+            <div class="exp-content">
+              <h3>Senior Systems Engineer</h3>
+              <p class="exp-company">Compass</p>
+              <ul class="exp-bullets">
+                <li>Led enterprise-wide IAM migration from OneLogin to Okta — 50+ apps, 40,000+ users, zero incidents — personally configuring SAML, OAuth, and SCIM from the application side.</li>
+                <li>Owned Google Workspace tenant administration at scale using GAM for bulk provisioning, policy enforcement, and governance automation.</li>
+                <li>Contributed to M&amp;A integration initiatives including user provisioning, data migration, tenant consolidation, and identity reconciliation.</li>
+                <li>Built Python-based REST API integrations against SaaS platforms to automate provisioning, catch configuration drift, and eliminate manual toil.</li>
+                <li>Served as final escalation tier for enterprise platform issues; led incident response, root cause analyses, and post-incident reviews.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="exp-item">
+            <div class="exp-date">Jul 2021<br>Aug 2023</div>
+            <div class="exp-content">
+              <h3>IT Systems Engineer</h3>
+              <p class="exp-company">Compass</p>
+              <ul class="exp-bullets">
+                <li>Owned enterprise SaaS administration across Zendesk, Google Workspace, OneLogin, Datadog, and Workato — engineering automation that replaced manual operations at scale.</li>
+                <li>Served as SME and final escalation tier for Zendesk; designed API-driven integrations that went beyond what the admin console could support.</li>
+                <li>Developed scalable Python REST API integrations standardizing data flows and provisioning across the SaaS ecosystem.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="exp-item">
+            <div class="exp-date">Jul 2020<br>Jun 2021</div>
+            <div class="exp-content">
+              <h3>Senior IT Support Engineer</h3>
+              <p class="exp-company">Box</p>
+              <ul class="exp-bullets">
+                <li>Supported enterprise SSO platform and SaaS ecosystem for a large-scale user base.</li>
+                <li>Developed Incident and Change Management processes improving response consistency and audit readiness.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="exp-item">
+            <div class="exp-date">Apr 2019<br>Jul 2020</div>
+            <div class="exp-content">
+              <h3>IT Support Engineer II</h3>
+              <p class="exp-company">RetailMeNot</p>
+              <ul class="exp-bullets">
+                <li>Administered OneLogin, Google Workspace, Jira, Meraki, and Jamf — maintaining access controls and endpoint compliance.</li>
+                <li>Investigated security threats using endpoint security software and SIEM tools.</li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- Contact -->
+      <section id="contact">
+        <p class="section-label fade-in">Get In Touch</p>
+        <div class="contact-grid fade-in">
+          <a href="mailto:thekatiesanders@gmail.com" class="contact-card">
+            <div class="contact-icon">✉️</div>
+            <div>
+              <p class="contact-label">Email</p>
+              <p class="contact-value">thekatiesanders@gmail.com</p>
+            </div>
+          </a>
+          <a href="https://linkedin.com/in/katiemichellesanders" target="_blank" class="contact-card">
+            <div class="contact-icon">💼</div>
+            <div>
+              <p class="contact-label">LinkedIn</p>
+              <p class="contact-value">katiemichellesanders</p>
+            </div>
+          </a>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>Katie Ross — Senior IT Systems Engineer — Fayetteville, AR</p>
+    </div>
+  </footer>
+
+  <script>
+    // Scroll-triggered fade-ins
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
